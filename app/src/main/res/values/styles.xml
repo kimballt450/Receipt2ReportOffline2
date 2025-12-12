@@ -1,0 +1,15 @@
+<resources>
+  <style name="Theme.R2ROffline" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <item name="colorPrimary">#0B0F14</item>
+    <item name="colorPrimaryVariant">#0B0F14</item>
+    <item name="colorOnPrimary">#E8EEF7</item>
+    <item name="colorSecondary">#5DD6C8</item>
+    <item name="colorOnSecondary">#0B0F14</item>
+    <item name="android:statusBarColor">#0B0F14</item>
+  </style>
+
+  <style name="Theme.R2ROffline.NoActionBar" parent="Theme.R2ROffline">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+  </style>
+</resources>

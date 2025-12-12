@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/bg">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Review &amp; Edit"
+      android:textColor="@color/text"
+      android:textStyle="bold"
+      android:textSize="18sp"/>
+
+    <TextView
+      android:id="@+id/hint"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="OCR is offline and may need corrections."
+      android:textColor="@color/muted"
+      android:textSize="12sp"
+      android:layout_marginTop="6dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+  style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:layout_marginTop="10dp">
+
+  <com.google.android.material.textfield.MaterialAutoCompleteTextView
+    android:id="@+id/categoryDropdown"
+    android:hint="Category"
+    android:inputType="none"
+    android:textColor="@color/text"
+    android:textColorHint="@color/muted"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+</com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp">
+      <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/notes"
+        android:hint="Notes"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:textColor="@color/text"
+        android:textColorHint="@color/muted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/saveBtn"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Save"
+      android:layout_marginTop="14dp"/>
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/viewOcrBtn"
+      style="?attr/materialButtonOutlinedStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="View raw OCR text"
+      android:layout_marginTop="10dp"/>
+
+    <TextView
+      android:id="@+id/rawOcr"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/muted"
+      android:textSize="12sp"
+      android:visibility="gone"
+      android:layout_marginTop="10dp"/>
+  </LinearLayout>
+</ScrollView>
