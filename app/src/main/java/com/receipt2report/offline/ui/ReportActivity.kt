@@ -72,34 +72,40 @@ class ReportActivity : ComponentActivity() {
   }
 
   private suspend fun writeCsv(out: OutputStream) {
-    val receipts = repo.getReceiptList()
-    val cats = repo.getCategoriesOnce()
-    val catMap = cats.associateBy({ it.id }, { it.name })
+  val receipts = repo.getReceiptList()
+  val cats = repo.getCategoriesOnce()
+  val catMap = cats.associateBy({ it.id }, { it.name })
 
-    fun esc(s: String): String = "\"" + s.replace("\"", "\"\"") + "\""
-
-    out.write("Category,Date,Merchant,Total,Tax,Tip,Notes
-".toByteArray())
-
-    val grouped = receipts.groupBy { catMap[it.categoryId] ?: "Uncategorized" }
-      .toSortedMap(String.CASE_INSENSITIVE_ORDER)
-
-    grouped.forEach { (catName, list) ->
-      list.sortedByDescending { it.dateIso }.forEach { r ->
-        val row =
-          "\${esc(catName)}," +
-          "\${r.dateIso}," +
-          "\${esc(r.merchant)}," +
-          "\${"%.2f".format(r.total)}," +
-          "\${"%.2f".format(r.tax)}," +
-          "\${"%.2f".format(r.tip)}," +
-          "\${esc(r.notes)}
-"
-        out.write(row.toByteArray())
-      }
-    }
+  fun esc(s: String): String {
+    // Always wrap in quotes and escape any inner quotes
+    return "\"" + s.replace("\"", "\"\"") + "\""
   }
 
+  fun f2(x: Double): String = String.format(java.util.Locale.US, "%.2f", x)
+
+  out.write("Category,Date,Merchant,Total,Tax,Tip,Notes\n".toByteArray())
+
+  val grouped = receipts.groupBy { catMap[it.categoryId] ?: "Uncategorized" }
+    .toSortedMap(String.CASE_INSENSITIVE_ORDER)
+
+  for ((catName, list) in grouped) {
+    val sorted = list.sortedByDescending { it.dateIso }
+    for (r in sorted) {
+      val row = StringBuilder()
+        .append(esc(catName)).append(',')
+        .append(r.dateIso).append(',')
+        .append(esc(r.merchant)).append(',')
+        .append(f2(r.total)).append(',')
+        .append(f2(r.tax)).append(',')
+        .append(f2(r.tip)).append(',')
+        .append(esc(r.notes))
+        .append('\n')
+        .toString()
+
+      out.write(row.toByteArray())
+    }
+  }
+}
   private suspend fun writePdf(out: OutputStream) {
     val receipts = repo.getReceiptList()
     val cats = repo.getCategoriesOnce()
